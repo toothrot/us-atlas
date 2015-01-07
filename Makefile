@@ -659,3 +659,23 @@ topo/us-10m.json: topo/us-states-10m.json
 		--out-object=land \
 		--no-key \
 		-- topo/us-states-10m.json
+
+topo/nyc-zips.topo.json: shp/us/zipcodes-unmerged.shp
+	mapshaper $< \
+		-filter '/^(100|101|102|110|111|112|113|114|116|07030|073)/.test(ZCTA5CE10)' \
+		-o format=topojson \
+		force \
+		$@
+
+topo/nyc-zips.topo: topo/nyc-zips.topo.json
+	cp $< $@
+
+topo/nyc-area-zips.topo.json: shp/us/zipcodes-unmerged.shp
+	mapshaper $< \
+		-filter '/^(100|101|102|110|111|112|113|114|116|073|070|071|072|073|074|075|076|103|104|105|106|107|108|109|115|117|118)/.test(ZCTA5CE10)' \
+		-o format=topojson \
+		force \
+		$@
+
+topo/nyc-area-zips.topo: topo/nyc-area-zips.topo.json
+	cp $< $@
